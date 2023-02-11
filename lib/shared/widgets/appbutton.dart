@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../gen/colors.gen.dart';
 import '../text_widgets/build_text.dart';
 
-
 class AppButton extends StatelessWidget {
   const AppButton({
     Key? key,
     required this.buttonWidth,
+    this.isLoading,
     required this.title,
     required this.color,
     this.onTap,
@@ -17,23 +17,25 @@ class AppButton extends StatelessWidget {
   final String title;
   final Color color;
   final Function()? onTap;
+  final bool? isLoading;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(12),
-        alignment: Alignment.center,
-        width: buttonWidth,
-        decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(12)),
-        child: BuildText(
-          text: title,
-          color: ColorName.colorWhite,
-          family: FontFamily.poppinsSemiBold,
-        ),
-      ),
+          padding: const EdgeInsets.all(12),
+          alignment: Alignment.center,
+          width: buttonWidth,
+          decoration: BoxDecoration(
+              color: color, borderRadius: BorderRadius.circular(12)),
+          child: (isLoading ?? false ) != true
+              ? BuildText(
+                  text: title,
+                  color: ColorName.colorWhite,
+                  family: FontFamily.poppinsSemiBold,
+                )
+              : Center(child: CircularProgressIndicator(color: Colors.white,))),
     );
   }
 }

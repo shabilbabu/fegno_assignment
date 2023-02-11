@@ -4,7 +4,8 @@ import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/text_widgets/build_text_form.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../application/auth/auth_bloc.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
 import '../../shared/constants/string_constants.dart';
@@ -28,13 +29,25 @@ class SignUpScreen extends StatelessWidget {
     width = SizeConfig.safeBlockHorizontal!;
     return SafeArea(
       child: Scaffold(
-        body: _createBody(context),
+        body: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if(state.errorMessage != null){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage.toString())));
+            }else if(state.signupEntity != null){
+              Navigator.of(context)
+            .pushNamedAndRemoveUntil(OtpScreen.routeName, (route) => false);
+            }
+          },
+          builder: (context, state) {
+            return _createBody(context, state);
+          },
+        ),
       ),
     );
   }
 
 //Create body
-  Widget _createBody(BuildContext context) {
+  Widget _createBody(BuildContext context, AuthState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 10),
       child: SingleChildScrollView(
@@ -45,7 +58,7 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(height: height * 15),
             fieldSection(context),
             SizedBox(height: height * 4),
-            continueButton(context),
+            continueButton(context,state),
             SizedBox(height: height * 5),
             privacyPolicy(),
           ],
@@ -117,13 +130,18 @@ class SignUpScreen extends StatelessWidget {
   }
 
 //Countinue Button
-  Widget continueButton(BuildContext context) {
+  Widget continueButton(BuildContext context, AuthState state) {
     return AppButton(
       buttonWidth: MediaQuery.of(context).size.width,
       title: StringConstants.continueText,
       color: ColorName.colorLoginButton,
-      onTap: () => Navigator.of(context)
-            .pushNamedAndRemoveUntil(OtpScreen.routeName, (route) => false),
+      isLoading: state.isLoading,
+      onTap: () {
+        if(state.isLoading != true){
+          context.read<AuthBloc>().add(SignupEvent(phoneNumber: phoneOrEmailController.text));
+        }
+        
+      }
     );
   }
 
