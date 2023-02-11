@@ -4,11 +4,11 @@ import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/gen/colors.gen.dart';
-import '../../../../shared/gen/fonts.gen.dart';
-import '../../../../shared/constants/font/size_config.dart';
-import '../../../../shared/text_widgets/build_text.dart';
-import '../../../../shared/text_widgets/build_text_form.dart';
+import '../../shared/gen/colors.gen.dart';
+import '../../shared/gen/fonts.gen.dart';
+import '../../shared/constants/font/size_config.dart';
+import '../../shared/text_widgets/build_text.dart';
+import '../../shared/text_widgets/build_text_form.dart';
 
 class AddReviewScreen extends StatelessWidget {
   static const String routeName = "/addReviewScreen";

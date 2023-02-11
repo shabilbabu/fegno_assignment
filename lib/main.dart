@@ -1,5 +1,5 @@
-import 'package:fegno_assignment/presentation/features/splash/screen/splash_screen.dart';
-import 'package:fegno_assignment/routes/routes.dart';
+import 'package:fegno_assignment/presentation/splash/splash_screen.dart';
+import 'package:fegno_assignment/shared/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'shared/services/navigation_services.dart';
 

@@ -1,14 +1,14 @@
-import 'package:fegno_assignment/presentation/features/auth/otp/screen/otp_screen.dart';
+import 'package:fegno_assignment/presentation/auth/otp_screen.dart';
 import 'package:fegno_assignment/shared/gen/colors.gen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/text_widgets/build_text_form.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../shared/gen/fonts.gen.dart';
-import '../../../../../shared/constants/font/size_config.dart';
-import '../../../../../shared/constants/string_constants.dart';
-import '../../../../../shared/text_widgets/build_text.dart';
+import '../../shared/gen/fonts.gen.dart';
+import '../../shared/constants/font/size_config.dart';
+import '../../shared/constants/string_constants.dart';
+import '../../shared/text_widgets/build_text.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const String routeName = "/signupScreen";

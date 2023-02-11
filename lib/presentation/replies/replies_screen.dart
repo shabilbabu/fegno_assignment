@@ -2,7 +2,7 @@ import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/constants/font/size_config.dart';
+import '../../shared/constants/font/size_config.dart';
 
 class RepliesScreen extends StatelessWidget {
   static const String routeName = "/repliesScreen";

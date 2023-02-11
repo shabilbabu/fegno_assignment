@@ -1,4 +1,4 @@
-import 'package:fegno_assignment/presentation/features/review/screen/add_review_screen.dart';
+import 'package:fegno_assignment/presentation/review/add_review_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/font/size_config.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
@@ -6,9 +6,9 @@ import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/gen/colors.gen.dart';
-import '../../../../shared/gen/fonts.gen.dart';
-import '../../../../shared/text_widgets/build_text.dart';
+import '../../shared/gen/colors.gen.dart';
+import '../../shared/gen/fonts.gen.dart';
+import '../../shared/text_widgets/build_text.dart';
 
 class AddRatingScreen extends StatelessWidget {
   static const String routeName = "/addRatingScreen";

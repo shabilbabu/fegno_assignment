@@ -1,12 +1,12 @@
-import 'package:fegno_assignment/presentation/features/auth/sign_up/screen/signup_screen.dart';
+import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared/gen/colors.gen.dart';
-import '../../../../shared/gen/fonts.gen.dart';
-import '../../../../shared/constants/font/size_config.dart';
-import '../../../../shared/constants/string_constants.dart';
-import '../../../../shared/text_widgets/build_text.dart';
+import '../../shared/gen/colors.gen.dart';
+import '../../shared/gen/fonts.gen.dart';
+import '../../shared/constants/font/size_config.dart';
+import '../../shared/constants/string_constants.dart';
+import '../../shared/text_widgets/build_text.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = "/splahScreen";

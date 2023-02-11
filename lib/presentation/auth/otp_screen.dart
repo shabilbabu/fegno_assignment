@@ -3,12 +3,12 @@ import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../../../shared/gen/colors.gen.dart';
-import '../../../../../shared/gen/fonts.gen.dart';
-import '../../../../../shared/constants/font/size_config.dart';
-import '../../../../../shared/constants/string_constants.dart';
-import '../../../../../shared/text_widgets/build_text.dart';
-import '../../../rating/screen/add_rating_screen.dart';
+import '../../shared/gen/colors.gen.dart';
+import '../../shared/gen/fonts.gen.dart';
+import '../../shared/constants/font/size_config.dart';
+import '../../shared/constants/string_constants.dart';
+import '../../shared/text_widgets/build_text.dart';
+import '../rating/add_rating_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   static const String routeName = "/otpScreen";
