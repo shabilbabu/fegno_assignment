@@ -31,10 +31,11 @@ class OtpScreen extends StatelessWidget {
       child: Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if(state.verifyOtpEntity != null){
-              Navigator.of(context)
-            .pushNamedAndRemoveUntil(AddRatingScreen.routeName, (route) => false);
-            } 
+            if (state.verifyOtpEntity != null) {
+              Navigator.of(context).pushNamedAndRemoveUntil(AddRatingScreen.routeName, (route) => false);
+            } else if (state.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage.toString())));
+            }
              
           },
           builder: (context, state) {
@@ -50,20 +51,22 @@ class OtpScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 10),
       child: Center(
-        child: Column(
-          children: [
-            SizedBox(height: height * 20),
-            titleSection(),
-            SizedBox(height: height * 5),
-            fieldWidget(),
-            SizedBox(height: height * 4),
-            otpField(context),
-            resendTimer(state.countDown),
-            SizedBox(height: height * 6),
-            verifyButton(context,state),
-            SizedBox(height: height * 5),
-            resendButton(context),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: height * 20),
+              titleSection(),
+              SizedBox(height: height * 5),
+              fieldWidget(),
+              SizedBox(height: height * 4),
+              otpField(context),
+              resendTimer(state.countDown),
+              SizedBox(height: height * 6),
+              verifyButton(context,state),
+              SizedBox(height: height * 5),
+              resendButton(context),
+            ],
+          ),
         ),
       ),
     );

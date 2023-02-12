@@ -17,6 +17,7 @@ class VerifyOtpEntity {
 
     final String? token;
     final String? user;
+    @JsonKey(name: 'user_id')
     final int? userId;
 
     factory VerifyOtpEntity.fromJson(Map<String, dynamic> json) =>

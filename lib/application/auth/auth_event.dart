@@ -14,6 +14,5 @@ class OtpCountdown extends AuthEvent {}
 
 class VerifyOtp extends AuthEvent {
   final String otp;
-
   VerifyOtp({required this.otp});
 }

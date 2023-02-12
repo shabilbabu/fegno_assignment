@@ -20,19 +20,20 @@ class AuthRepo {
 
     try {
       final response = await Dio().post(ApiConstants.signup, data: payload);
-      if (response.statusCode == 200) {
+      final model = SignupEntity.fromJson(response.data);
+      if (model.otp != null) {
         log(response.data.toString());
         log(response.statusCode.toString());
-        return SignupEntity.fromJson(response.data);
+        return model;
       } else {
         throw 'Something went wrong! Please try again later.';
       }
-    } on SocketException {
-      throw 'Please make sure about your Connection!';
     } on DioError catch (e) {
-      // log(e.response?.data.toString());
-      log(e.toString());
-      throw 'Something went wrong! Please try again later.';
+      if (e.message.contains('SocketException')) {
+        throw 'Please make sure about your Connection!';
+      } else {
+        throw 'Something went wrong! Please try again later.';
+      }
     }
   }
 
@@ -46,19 +47,20 @@ class AuthRepo {
 
     try {
       final response = await Dio().post(ApiConstants.otp, data: payload);
-      if (response.statusCode == 200) {
+      final model = VerifyOtpEntity.fromJson(response.data);
+      if (model.token != null) {
         log(response.data.toString());
         log(response.statusCode.toString());
-        return VerifyOtpEntity.fromJson(response.data);
+        return model;
       } else {
         throw 'Something went wrong! Please try again later.';
       }
-    } on SocketException {
-      throw 'Please make sure about your Connection!';
     } on DioError catch (e) {
-      // log(e.response?.data.toString());
-      log(e.toString());
-      throw 'Something went wrong! Please try again later.';
+      if (e.message.contains('SocketException')) {
+        throw 'Please make sure about your Connection!';
+      } else {
+        throw 'Something went wrong! Please try again later.';
+      }
     }
   }
 }
