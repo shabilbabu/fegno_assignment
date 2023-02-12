@@ -131,7 +131,7 @@ class AddReviewScreen extends StatelessWidget {
           containerWidth: MediaQuery.of(context).size.width,
           keyBoardType: TextInputType.name,
           controller: reviewController,
-          label: StringConstants.pleaseWriteRevie,
+          label: StringConstants.pleaseWriteRevie, colorDecoration: null,
         ),
       ],
     );

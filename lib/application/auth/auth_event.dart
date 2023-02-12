@@ -6,6 +6,11 @@ abstract class AuthEvent {}
 
 class SignupEvent extends AuthEvent {
   final String phoneNumber;
+  final String fullName;
 
-  SignupEvent({required this.phoneNumber});
+  SignupEvent({required this.phoneNumber, required this.fullName});
+}
+
+class ResendOtp extends AuthEvent{
+  
 }

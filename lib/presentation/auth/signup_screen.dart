@@ -4,6 +4,7 @@ import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/text_widgets/build_text_form.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/auth/auth_bloc.dart';
 import '../../shared/gen/fonts.gen.dart';
@@ -17,6 +18,7 @@ class SignUpScreen extends StatelessWidget {
 
   //Textediting Controller
   final TextEditingController phoneOrEmailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   //height and width
   double height = 0.0;
@@ -121,9 +123,21 @@ class SignUpScreen extends StatelessWidget {
           BuildLoginTextFieldBorder(
             textWidth: width,
             containerWidth: MediaQuery.of(context).size.width,
-            keyBoardType: TextInputType.emailAddress,
+            keyBoardType: TextInputType.number,
             controller: phoneOrEmailController,
             label: StringConstants.phoneOrEmail,
+            textInputFormatter: [
+                    LengthLimitingTextInputFormatter(10),
+                    FilteringTextInputFormatter.digitsOnly
+                  ], colorDecoration: null,
+          ),
+          SizedBox(height: height * 1),
+          BuildLoginTextFieldBorder(
+            textWidth: width,
+            containerWidth: MediaQuery.of(context).size.width,
+            keyBoardType: TextInputType.emailAddress,
+            controller: nameController,
+            label: StringConstants.fullName, colorDecoration: null,
           ),
       ],
     );
@@ -138,7 +152,7 @@ class SignUpScreen extends StatelessWidget {
       isLoading: state.isLoading,
       onTap: () {
         if(state.isLoading != true){
-          context.read<AuthBloc>().add(SignupEvent(phoneNumber: phoneOrEmailController.text));
+          context.read<AuthBloc>().add(SignupEvent(phoneNumber: phoneOrEmailController.text,fullName: nameController.text));
         }
         
       }

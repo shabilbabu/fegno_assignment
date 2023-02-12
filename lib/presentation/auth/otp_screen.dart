@@ -1,8 +1,10 @@
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../application/auth/auth_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
@@ -28,13 +30,19 @@ class OtpScreen extends StatelessWidget {
     width = SizeConfig.safeBlockHorizontal!;
     return SafeArea(
       child: Scaffold(
-        body: _createBody(context),
+        body: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+          },
+          builder: (context, state) {
+            return _createBody(context,state);
+          },
+        ),
       ),
     );
   }
 
 //Create body
-  Widget _createBody(BuildContext context) {
+  Widget _createBody(BuildContext context, AuthState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 10),
       child: Center(
@@ -46,11 +54,11 @@ class OtpScreen extends StatelessWidget {
             fieldWidget(),
             SizedBox(height: height * 4),
             otpField(context),
-            resendTimer(),
+            resendTimer(state.countDown),
             SizedBox(height: height * 6),
             verifyButton(context),
             SizedBox(height: height * 5),
-            resendButton(),
+            resendButton(context),
           ],
         ),
       ),
@@ -140,9 +148,9 @@ class OtpScreen extends StatelessWidget {
   }
 
 //Resend Timer
-  Widget resendTimer() {
+  Widget resendTimer(int countDown) {
     return BuildText(
-      text: '00:30',
+      text:'00:' + countDown.toString(),
       color: Colors.red,
       fontSize: 10.0.small13px(),
       family: FontFamily.poppinsSemiBold,
@@ -160,7 +168,7 @@ class OtpScreen extends StatelessWidget {
   }
 
 //Resend button
-  Widget resendButton() {
+  Widget resendButton(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -171,11 +179,14 @@ class OtpScreen extends StatelessWidget {
           family: FontFamily.poppinsmedium,
         ),
         SizedBox(width: width * 1),
-        BuildText(
-          text: StringConstants.resend,
-          color: Colors.red,
-          fontSize: 10.0.small13px(),
-          family: FontFamily.poppinsmedium,
+        InkWell(
+          onTap: () => context.read<AuthBloc>().add(ResendOtp()),
+          child: BuildText(
+            text: StringConstants.resend,
+            color: Colors.red,
+            fontSize: 10.0.small13px(),
+            family: FontFamily.poppinsmedium,
+          ),
         ),
       ],
     );

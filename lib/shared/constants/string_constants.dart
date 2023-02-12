@@ -23,4 +23,5 @@ class StringConstants {
   static const String save = 'Save';
   static const String pleaseWriteRevie = 'Please write your review....';
   static const String replies = 'Replies';
+  static const String fullName = 'Fullname';
 }

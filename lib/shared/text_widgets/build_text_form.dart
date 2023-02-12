@@ -25,7 +25,7 @@ class BuildLoginTextFieldBorder extends StatefulWidget {
     this.enabled = true,
     this.isWorkingHour = false,
     this.isFromBank = false,
-    this.onChange,
+    this.onChange, required colorDecoration,
   }) : super(key: key);
 
   final double textWidth;
