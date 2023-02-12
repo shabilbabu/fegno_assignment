@@ -20,6 +20,7 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController phoneOrEmailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
+
   //height and width
   double height = 0.0;
   double width = 0.0;
@@ -38,6 +39,7 @@ class SignUpScreen extends StatelessWidget {
             }else if(state.signupEntity != null){
               Navigator.of(context)
             .pushNamedAndRemoveUntil(OtpScreen.routeName, (route) => false);
+            context.read<AuthBloc>().add(OtpCountdown());
             }
           },
           builder: (context, state) {

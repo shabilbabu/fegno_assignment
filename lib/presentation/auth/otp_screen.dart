@@ -3,7 +3,6 @@ import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import '../../application/auth/auth_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
@@ -32,6 +31,11 @@ class OtpScreen extends StatelessWidget {
       child: Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
+            if(state.verifyOtpEntity != null){
+              Navigator.of(context)
+            .pushNamedAndRemoveUntil(AddRatingScreen.routeName, (route) => false);
+            } 
+             
           },
           builder: (context, state) {
             return _createBody(context,state);
@@ -56,7 +60,7 @@ class OtpScreen extends StatelessWidget {
             otpField(context),
             resendTimer(state.countDown),
             SizedBox(height: height * 6),
-            verifyButton(context),
+            verifyButton(context,state),
             SizedBox(height: height * 5),
             resendButton(context),
           ],
@@ -158,12 +162,17 @@ class OtpScreen extends StatelessWidget {
   }
 
 //verify button
-  Widget verifyButton(BuildContext context) {
+  Widget verifyButton(BuildContext context,AuthState state) {
     return AppButton(
       buttonWidth: MediaQuery.of(context).size.width,
       title: StringConstants.verify,
       color: ColorName.colorLoginButton,
-      onTap: () => Navigator.of(context).pushNamed(AddRatingScreen.routeName),
+      isLoading: state.isLoading,
+      onTap: () {
+         if(state.isLoading != true){
+          context.read<AuthBloc>().add(VerifyOtp(otp: otpController.text));
+        }
+      }
     );
   }
 
@@ -180,7 +189,7 @@ class OtpScreen extends StatelessWidget {
         ),
         SizedBox(width: width * 1),
         InkWell(
-          onTap: () => context.read<AuthBloc>().add(ResendOtp()),
+          onTap: () => context.read<AuthBloc>().add(OtpCountdown()),
           child: BuildText(
             text: StringConstants.resend,
             color: Colors.red,
