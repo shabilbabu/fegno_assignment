@@ -1,11 +1,7 @@
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:fegno_assignment/application/auth/auth_bloc.dart';
 import 'package:fegno_assignment/domain/entity/verify_otp_entity.dart';
 import 'package:fegno_assignment/shared/constants/api_constants.dart';
-
 import '../entity/signup_entity.dart';
 
 class AuthRepo {
@@ -22,8 +18,6 @@ class AuthRepo {
       final response = await Dio().post(ApiConstants.signup, data: payload);
       final model = SignupEntity.fromJson(response.data);
       if (model.otp != null) {
-        log(response.data.toString());
-        log(response.statusCode.toString());
         return model;
       } else {
         throw 'Something went wrong! Please try again later.';
@@ -49,8 +43,6 @@ class AuthRepo {
       final response = await Dio().post(ApiConstants.otp, data: payload);
       final model = VerifyOtpEntity.fromJson(response.data);
       if (model.token != null) {
-        log(response.data.toString());
-        log(response.statusCode.toString());
         return model;
       } else {
         throw 'Something went wrong! Please try again later.';
@@ -63,4 +55,9 @@ class AuthRepo {
       }
     }
   }
+
+
+
+//Resend OTP
+
 }

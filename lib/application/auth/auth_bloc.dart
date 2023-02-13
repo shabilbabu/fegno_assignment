@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:fegno_assignment/domain/entity/signup_entity.dart';
 import 'package:fegno_assignment/domain/entity/verify_otp_entity.dart';
@@ -31,12 +30,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
+
     on<OtpCountdown>((event, emit) async {
       if (state.countDown == 30) {
         var s = await Stream.periodic(const Duration(seconds: 1), (c) => state.countDown == 1 ? 30 : state.countDown - 1).take(30);
         await emit.forEach(s, onData: (v) => AuthState.countDown(v));
       }
     });
+
+    
 
     on<VerifyOtp>((event, emit) async {
       if (event.otp.length != 4) {
