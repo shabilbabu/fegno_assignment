@@ -7,7 +7,6 @@ import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../application/rating/rating_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
@@ -16,6 +15,8 @@ import '../../shared/text_widgets/build_text.dart';
 class AddRatingScreen extends StatelessWidget {
   static const String routeName = "/addRatingScreen";
   AddRatingScreen({Key? key}) : super(key: key);
+
+  // int rating = 0;
 
   //height and width
   double height = 0.0;
@@ -164,7 +165,7 @@ class AddRatingScreen extends StatelessWidget {
         color: ColorName.colorLoginButton,
         isLoading: state.isLoading,
         onTap: () {
-          context.read<RatingBloc>().add(UploadRating());
+      context.read<RatingBloc>().add(UploadRating());
         });
   }
 }

@@ -20,6 +20,8 @@ class AddReviewScreen extends StatelessWidget {
   static const String routeName = "/addReviewScreen";
   AddReviewScreen({Key? key}) : super(key: key);
 
+  
+
   //height and width
   double height = 0.0;
   double width = 0.0;
@@ -29,6 +31,7 @@ class AddReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     SizeConfig().init(context);
     height = SizeConfig.safeBlockVertical!;
     width = SizeConfig.safeBlockHorizontal!;
@@ -74,7 +77,7 @@ class AddReviewScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: height * 3),
-          firstSection(),
+          firstSection(context),
           SizedBox(height: height * 4),
           writeReview(context),
           const Spacer(),
@@ -86,7 +89,8 @@ class AddReviewScreen extends StatelessWidget {
   }
 
 //First section
-  Widget firstSection() {
+  Widget firstSection(BuildContext context) {
+    int rating = context.read<RatingBloc>().state.rating;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -101,21 +105,36 @@ class AddReviewScreen extends StatelessWidget {
         Row(
           children: [
             BuildText(
-              text: '4.0',
+              text: rating.toString()+ '.0',
               color: Colors.green,
               fontSize: 10.0.large23px(),
               family: FontFamily.poppinsSemiBold,
             ),
             SizedBox(width: width * 3),
-            starIcon(Colors.amber),
+            starIcon( rating >= 1
+             ? Colors.amber
+             : Colors.grey,
+            ),
             SizedBox(width: 1),
-            starIcon(Colors.amber),
+            starIcon( rating >= 2
+             ? Colors.amber
+             : Colors.grey,
+            ),
             SizedBox(width: 1),
-            starIcon(Colors.amber),
+            starIcon( rating >= 3
+             ? Colors.amber
+             : Colors.grey,
+            ),
             SizedBox(width: 1),
-            starIcon(Colors.amber),
+            starIcon( rating >= 4
+             ? Colors.amber
+             : Colors.grey,
+            ),
             SizedBox(width: 1),
-            starIcon(Colors.grey),
+            starIcon( rating >= 4
+             ? Colors.amber
+             : Colors.grey,
+            ),
           ],
         ),
       ],
@@ -126,7 +145,8 @@ class AddReviewScreen extends StatelessWidget {
   Widget starIcon(Color color) {
     return Icon(
       Icons.star,
-      color: color,
+      color:
+       color,
       size: 22,
     );
   }
@@ -173,14 +193,12 @@ class AddReviewScreen extends StatelessWidget {
         });
   }
 
-
-
 //Success bottom sheet widget
   Future showModelBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
-      ),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       backgroundColor: ColorName.colorLoginButton,
       context: context,
       builder: (context) {
