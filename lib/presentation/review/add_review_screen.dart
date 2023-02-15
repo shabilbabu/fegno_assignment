@@ -4,7 +4,9 @@ import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../application/review/review_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
@@ -30,7 +32,19 @@ class AddReviewScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: appbarWidget(context),
-        body: createBody(context),
+        body: BlocConsumer<ReviewBloc, ReviewState>(
+          listener: (context, state) {
+            if (state.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage.toString())));
+            } else if (state.review.isNotEmpty) {
+              Navigator.of(context).pushNamed(LogoutScreen.routeName);
+            }
+          },
+          builder: (context, state) {
+            return createBody(context, state);
+          },
+        ),
       ),
     );
   }
@@ -49,7 +63,7 @@ class AddReviewScreen extends StatelessWidget {
   }
 
 //Create body
-  Widget createBody(BuildContext context) {
+  Widget createBody(BuildContext context, ReviewState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 8),
       child: Column(
@@ -60,7 +74,7 @@ class AddReviewScreen extends StatelessWidget {
           SizedBox(height: height * 4),
           writeReview(context),
           const Spacer(),
-          saveButton(context),
+          saveButton(context, state),
           SizedBox(height: height * 3),
         ],
       ),
@@ -132,19 +146,26 @@ class AddReviewScreen extends StatelessWidget {
           containerWidth: MediaQuery.of(context).size.width,
           keyBoardType: TextInputType.name,
           controller: reviewController,
-          label: StringConstants.pleaseWriteRevie, colorDecoration: null,
+          label: StringConstants.pleaseWriteRevie,
+          colorDecoration: null,
         ),
       ],
     );
   }
 
 //Save button
-  Widget saveButton(BuildContext context) {
+  Widget saveButton(BuildContext context, ReviewState state) {
     return AppButton(
-      buttonWidth: MediaQuery.of(context).size.width,
-      title: StringConstants.save,
-      color: ColorName.colorLoginButton,
-      onTap: () => Navigator.of(context).pushNamed(LogoutScreen.routeName),
-    );
+        buttonWidth: MediaQuery.of(context).size.width,
+        title: StringConstants.save,
+        color: ColorName.colorLoginButton,
+        isLoading: state.isLoading,
+        onTap: () {
+          if (state.isLoading != true) {
+            context
+                .read<ReviewBloc>()
+                .add(UploadReviewEvent(review: reviewController.text));
+          }
+        });
   }
 }

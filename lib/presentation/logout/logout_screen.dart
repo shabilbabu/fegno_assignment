@@ -1,8 +1,10 @@
+import 'package:fegno_assignment/application/rating/rating_bloc.dart';
 import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/services/session_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../gen/colors.gen.dart';
 import '../../gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
@@ -59,6 +61,7 @@ class LogoutScreen extends StatelessWidget {
     return InkWell(
       onTap: () {
         SessionService.removeAccessToken();
+        context.read<RatingBloc>().add(UpdateRating(rating: 0));
         Navigator.of(context).pushNamedAndRemoveUntil(SignUpScreen.routeName, (route) => false);
       },
       child: Container(

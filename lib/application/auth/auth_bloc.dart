@@ -12,7 +12,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepo authRepo;
-  late final SignupEntity signupEntity;
+   SignupEntity? signupEntity;
   AuthBloc(this.authRepo) : super(AuthState()) {
     on<SignupEvent>((event, emit) async {
       if (event.phoneNumber.isEmpty) {
@@ -26,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           signupEntity = await authRepo.signUp(
               phoneNumber: event.phoneNumber, name: event.fullName);
-          emit(AuthState.successSignup(signupEntity));
+          emit(AuthState.successSignup(signupEntity!));
         } catch (e) {
           emit(AuthState.hasError(e.toString()));
         }
@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthState.started());
         try {
           final response = await authRepo.verifyOtp(
-              phoneNumber: signupEntity.mobile!, otp: event.otp);
+              phoneNumber: signupEntity!.mobile!, otp: event.otp);
           log(response.token.toString());
           await SessionService.saveAccessToken(response.token.toString());
           emit(AuthState.successVerifyOtp(response));

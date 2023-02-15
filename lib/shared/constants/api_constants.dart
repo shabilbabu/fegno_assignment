@@ -6,4 +6,6 @@ class ApiConstants{
   static const String otp = _baseUrl + '/api/v1/user/enter_otp/';
   //Rating
   static const String uploadRating = _baseUrl + '/api/v1/user/add-rating/';
+  //Review
+  static const String uploadReview = _baseUrl + '/api/v1/user/add-review/';
 }
