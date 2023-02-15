@@ -1,5 +1,6 @@
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
+import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -34,7 +35,7 @@ class OtpScreen extends StatelessWidget {
             if (state.verifyOtpEntity != null) {
               Navigator.of(context).pushNamedAndRemoveUntil(AddRatingScreen.routeName, (route) => false);
             } else if (state.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage.toString())));
+              showSuccessPop(context: context, title: state.errorMessage.toString());
             }
              
           },

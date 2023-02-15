@@ -1,17 +1,20 @@
-import 'package:fegno_assignment/presentation/logout/logout_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
+import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../application/rating/rating_bloc.dart';
 import '../../application/review/review_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
+import '../../shared/services/session_service.dart';
 import '../../shared/text_widgets/build_text.dart';
 import '../../shared/text_widgets/build_text_form.dart';
+import '../auth/signup_screen.dart';
 
 class AddReviewScreen extends StatelessWidget {
   static const String routeName = "/addReviewScreen";
@@ -31,14 +34,15 @@ class AddReviewScreen extends StatelessWidget {
     width = SizeConfig.safeBlockHorizontal!;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: appbarWidget(context),
         body: BlocConsumer<ReviewBloc, ReviewState>(
           listener: (context, state) {
             if (state.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage.toString())));
+              showSuccessPop(
+                  context: context, title: state.errorMessage.toString());
             } else if (state.review.isNotEmpty) {
-              Navigator.of(context).pushNamed(LogoutScreen.routeName);
+              showModelBottomSheet(context);
             }
           },
           builder: (context, state) {
@@ -167,5 +171,79 @@ class AddReviewScreen extends StatelessWidget {
                 .add(UploadReviewEvent(review: reviewController.text));
           }
         });
+  }
+
+
+
+//Success bottom sheet widget
+  Future showModelBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))
+      ),
+      backgroundColor: ColorName.colorLoginButton,
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 10, vertical: height * 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BuildText(
+                text: StringConstants.appName,
+                color: ColorName.colorWhite,
+                fontSize: 10.0.large30px(),
+                family: FontFamily.poppinsBold,
+              ),
+              SizedBox(height: height * 5),
+              BuildText(
+                text: StringConstants.successfully,
+                color: ColorName.colorWhite,
+                fontSize: 10.0.large22px(),
+                family: FontFamily.poppinsSemiBold,
+                textAlign: TextAlign.center,
+              ),
+              const Spacer(),
+              logoutButton(context),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+//Logout button
+  Widget logoutButton(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        SessionService.removeAccessToken();
+        context.read<RatingBloc>().add(UpdateRating(rating: 0));
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(SignUpScreen.routeName, (route) => false);
+      },
+      child: Container(
+        padding:
+            EdgeInsets.symmetric(horizontal: width * 5, vertical: height * 1),
+        decoration: BoxDecoration(
+          color: ColorName.colorWhite,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.logout, color: ColorName.colorLoginButton, size: 25),
+            SizedBox(width: width * 3),
+            BuildText(
+              text: StringConstants.logout,
+              color: ColorName.colorLoginButton,
+              fontSize: 10.0.small14px(),
+              family: FontFamily.poppinsSemiBold,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

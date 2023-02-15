@@ -24,18 +24,39 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-          padding: const EdgeInsets.all(12),
-          alignment: Alignment.center,
-          width: buttonWidth,
-          decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(12)),
-          child: (isLoading ?? false ) != true
-              ? BuildText(
-                  text: title,
-                  color: ColorName.colorWhite,
-                  family: FontFamily.poppinsSemiBold,
-                )
-              : Center(child: CircularProgressIndicator(color: Colors.white,))),
+        padding: const EdgeInsets.all(12),
+        alignment: Alignment.center,
+        width: buttonWidth,
+        decoration: BoxDecoration(
+            color: color, borderRadius: BorderRadius.circular(12)),
+        child: (isLoading ?? false) != true
+            ? BuildText(
+                text: title,
+                color: ColorName.colorWhite,
+                family: FontFamily.poppinsSemiBold,
+              )
+            : Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BuildText(
+                      text: 'Loading...',
+                      color: ColorName.colorWhite,
+                      family: FontFamily.poppinsSemiBold,
+                    ),
+                    SizedBox(width: 5),
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:fegno_assignment/domain/repository/rating_repo.dart';
 import 'package:meta/meta.dart';
-
 part 'rating_event.dart';
 part 'rating_state.dart';
 

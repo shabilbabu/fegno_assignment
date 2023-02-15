@@ -3,6 +3,7 @@ import 'package:fegno_assignment/shared/gen/colors.gen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/text_widgets/build_text_form.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
+import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,8 +35,7 @@ class SignUpScreen extends StatelessWidget {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.errorMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage.toString())));
+              showSuccessPop(context: context,  title: state.errorMessage.toString());
             } else if (state.signupEntity != null) {
               Navigator.of(context).pushNamedAndRemoveUntil(
                   OtpScreen.routeName, (route) => false);
