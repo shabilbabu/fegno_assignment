@@ -10,12 +10,12 @@ VerifyOtpEntity _$VerifyOtpEntityFromJson(Map<String, dynamic> json) =>
     VerifyOtpEntity(
       token: json['token'] as String?,
       user: json['user'] as String?,
-      userId: json['user_id'] as int?,
+      userId: json['userId'] as int?,
     );
 
 Map<String, dynamic> _$VerifyOtpEntityToJson(VerifyOtpEntity instance) =>
     <String, dynamic>{
       'token': instance.token,
       'user': instance.user,
-      'user_id': instance.userId,
+      'userId': instance.userId,
     };

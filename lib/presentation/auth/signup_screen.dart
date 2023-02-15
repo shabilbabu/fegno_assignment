@@ -20,7 +20,6 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController phoneOrEmailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
 
-
   //height and width
   double height = 0.0;
   double width = 0.0;
@@ -34,12 +33,13 @@ class SignUpScreen extends StatelessWidget {
       child: Scaffold(
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if(state.errorMessage != null){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.errorMessage.toString())));
-            }else if(state.signupEntity != null){
-              Navigator.of(context)
-            .pushNamedAndRemoveUntil(OtpScreen.routeName, (route) => false);
-            context.read<AuthBloc>().add(OtpCountdown());
+            if (state.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage.toString())));
+            } else if (state.signupEntity != null) {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  OtpScreen.routeName, (route) => false);
+              context.read<AuthBloc>().add(OtpCountdownEvent());
             }
           },
           builder: (context, state) {
@@ -62,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(height: height * 15),
             fieldSection(context),
             SizedBox(height: height * 4),
-            continueButton(context,state),
+            continueButton(context, state),
             SizedBox(height: height * 5),
             privacyPolicy(),
           ],
@@ -89,58 +89,58 @@ class SignUpScreen extends StatelessWidget {
             fontSize: 10.0.large30px(),
             family: FontFamily.poppinsSemiBold,
           ),
-          
-          
         ],
       ),
     );
   }
 
 //Field section
-  Widget fieldSection(BuildContext context){
+  Widget fieldSection(BuildContext context) {
     return Column(
       children: [
         Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: height * 0.1,
-                width: width * 20,
-                color: Colors.black,
-              ),
-              BuildText(
-                text: StringConstants.loginOrSignUp,
-                color: ColorName.colorPrimary,
-                fontSize: 10.0.small11px(),
-                family: FontFamily.poppinsRegular,
-              ),
-              Container(
-                height: height * 0.1,
-                width: width * 20,
-                color: Colors.black,
-              ),
-            ],
-          ),
-          SizedBox(height: height * 3),
-          BuildLoginTextFieldBorder(
-            textWidth: width,
-            containerWidth: MediaQuery.of(context).size.width,
-            keyBoardType: TextInputType.number,
-            controller: phoneOrEmailController,
-            label: StringConstants.phoneOrEmail,
-            textInputFormatter: [
-                    LengthLimitingTextInputFormatter(10),
-                    FilteringTextInputFormatter.digitsOnly
-                  ], colorDecoration: null,
-          ),
-          SizedBox(height: height * 1),
-          BuildLoginTextFieldBorder(
-            textWidth: width,
-            containerWidth: MediaQuery.of(context).size.width,
-            keyBoardType: TextInputType.emailAddress,
-            controller: nameController,
-            label: StringConstants.fullName, colorDecoration: null,
-          ),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: height * 0.1,
+              width: width * 20,
+              color: Colors.black,
+            ),
+            BuildText(
+              text: StringConstants.loginOrSignUp,
+              color: ColorName.colorPrimary,
+              fontSize: 10.0.small11px(),
+              family: FontFamily.poppinsRegular,
+            ),
+            Container(
+              height: height * 0.1,
+              width: width * 20,
+              color: Colors.black,
+            ),
+          ],
+        ),
+        SizedBox(height: height * 3),
+        BuildLoginTextFieldBorder(
+          textWidth: width,
+          containerWidth: MediaQuery.of(context).size.width,
+          keyBoardType: TextInputType.number,
+          controller: phoneOrEmailController,
+          label: StringConstants.phoneOrEmail,
+          textInputFormatter: [
+            LengthLimitingTextInputFormatter(10),
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          colorDecoration: null,
+        ),
+        SizedBox(height: height * 1),
+        BuildLoginTextFieldBorder(
+          textWidth: width,
+          containerWidth: MediaQuery.of(context).size.width,
+          keyBoardType: TextInputType.emailAddress,
+          controller: nameController,
+          label: StringConstants.fullName,
+          colorDecoration: null,
+        ),
       ],
     );
   }
@@ -148,17 +148,17 @@ class SignUpScreen extends StatelessWidget {
 //Countinue Button
   Widget continueButton(BuildContext context, AuthState state) {
     return AppButton(
-      buttonWidth: MediaQuery.of(context).size.width,
-      title: StringConstants.continueText,
-      color: ColorName.colorLoginButton,
-      isLoading: state.isLoading,
-      onTap: () {
-        if(state.isLoading != true){
-          context.read<AuthBloc>().add(SignupEvent(phoneNumber: phoneOrEmailController.text,fullName: nameController.text));
-        }
-        
-      }
-    );
+        buttonWidth: MediaQuery.of(context).size.width,
+        title: StringConstants.continueText,
+        color: ColorName.colorLoginButton,
+        isLoading: state.isLoading,
+        onTap: () {
+          if (state.isLoading != true) {
+            context.read<AuthBloc>().add(SignupEvent(
+                phoneNumber: phoneOrEmailController.text,
+                fullName: nameController.text));
+          }
+        });
   }
 
 //Privacy policy

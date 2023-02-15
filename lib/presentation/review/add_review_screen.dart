@@ -1,3 +1,4 @@
+import 'package:fegno_assignment/presentation/logout/logout_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
@@ -143,6 +144,7 @@ class AddReviewScreen extends StatelessWidget {
       buttonWidth: MediaQuery.of(context).size.width,
       title: StringConstants.save,
       color: ColorName.colorLoginButton,
+      onTap: () => Navigator.of(context).pushNamed(LogoutScreen.routeName),
     );
   }
 }

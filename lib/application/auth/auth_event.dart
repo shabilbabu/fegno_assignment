@@ -10,9 +10,9 @@ class SignupEvent extends AuthEvent {
   SignupEvent({required this.phoneNumber, required this.fullName});
 }
 
-class OtpCountdown extends AuthEvent {}
+class OtpCountdownEvent extends AuthEvent {}
 
-class VerifyOtp extends AuthEvent {
+class VerifyOtpEvent extends AuthEvent {
   final String otp;
-  VerifyOtp({required this.otp});
+  VerifyOtpEvent({required this.otp});
 }

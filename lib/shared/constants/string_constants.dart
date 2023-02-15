@@ -22,6 +22,7 @@ class StringConstants {
   static const String writeReview = 'Write your Review';
   static const String save = 'Save';
   static const String pleaseWriteRevie = 'Please write your review....';
-  static const String replies = 'Replies';
   static const String fullName = 'Fullname';
+  static const String logout = 'Logout';
+  static const String successfully = 'Successfully add your review....';
 }

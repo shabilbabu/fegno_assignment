@@ -5,7 +5,9 @@ import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../application/rating/rating_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/text_widgets/build_text.dart';
@@ -27,7 +29,19 @@ class AddRatingScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: appbarWidget(context),
-        body: createBody(context),
+        body: BlocConsumer<RatingBloc, RatingState>(
+          listener: (context, state) {
+            if (state.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage.toString())));
+            } else if (state.updated == true) {
+              Navigator.of(context).pushNamed(AddReviewScreen.routeName);
+            }
+          },
+          builder: (context, state) {
+            return createBody(context, state);
+          },
+        ),
       ),
     );
   }
@@ -46,7 +60,7 @@ class AddRatingScreen extends StatelessWidget {
   }
 
 //Create body
-  Widget createBody(BuildContext context) {
+  Widget createBody(BuildContext context, RatingState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 8),
       child: Center(
@@ -55,9 +69,9 @@ class AddRatingScreen extends StatelessWidget {
             SizedBox(height: height * 15),
             titleSection(),
             SizedBox(height: height * 3),
-            ratingSection(),
+            ratingSection(state, context),
             const Spacer(),
-            nextButton(context),
+            nextButton(context,state),
             SizedBox(height: height * 3),
           ],
         ),
@@ -95,24 +109,26 @@ class AddRatingScreen extends StatelessWidget {
   }
 
 //Rating section
-  Widget ratingSection() {
+  Widget ratingSection(RatingState state, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        starWidget(Colors.green, 'Very Bad', () {
-          return null;
+        starWidget(state.rating >= 1 ? Colors.green : Colors.grey, 'Very Bad',
+            () {
+          context.read<RatingBloc>().add(UpdateRating(rating: 1));
         }),
-        starWidget(Colors.green, 'Bad', () {
-          return null;
+        starWidget(state.rating >= 2 ? Colors.green : Colors.grey, 'Bad', () {
+          context.read<RatingBloc>().add(UpdateRating(rating: 2));
         }),
-        starWidget(Colors.green, 'Ok', () {
-          return null;
+        starWidget(state.rating >= 3 ? Colors.green : Colors.grey, 'Ok', () {
+          context.read<RatingBloc>().add(UpdateRating(rating: 3));
         }),
-        starWidget(Colors.green, 'Good', () {
-          return null;
+        starWidget(state.rating >= 4 ? Colors.green : Colors.grey, 'Good', () {
+          context.read<RatingBloc>().add(UpdateRating(rating: 4));
         }),
-        starWidget(Colors.grey, 'Excellent', () {
-          return null;
+        starWidget(state.rating >= 5 ? Colors.green : Colors.grey, 'Excellent',
+            () {
+          context.read<RatingBloc>().add(UpdateRating(rating: 5));
         }),
       ],
     );
@@ -141,12 +157,14 @@ class AddRatingScreen extends StatelessWidget {
   }
 
 //Next button
-  Widget nextButton(BuildContext context) {
+  Widget nextButton(BuildContext context, RatingState state) {
     return AppButton(
-      buttonWidth: MediaQuery.of(context).size.width,
-      title: StringConstants.next,
-      color: ColorName.colorLoginButton,
-      onTap: () => Navigator.of(context).pushNamed(AddReviewScreen.routeName),
-    );
+        buttonWidth: MediaQuery.of(context).size.width,
+        title: StringConstants.next,
+        color: ColorName.colorLoginButton,
+        isLoading: state.isLoading,
+        onTap: () {
+          context.read<RatingBloc>().add(UploadRating());
+        });
   }
 }

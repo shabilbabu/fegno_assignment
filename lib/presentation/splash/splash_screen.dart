@@ -1,5 +1,7 @@
 import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
+import 'package:fegno_assignment/presentation/rating/add_rating_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
+import 'package:fegno_assignment/shared/services/session_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../shared/gen/colors.gen.dart';
@@ -21,17 +23,22 @@ class _SplashScreenState extends State<SplashScreen> {
   double height = 0.0;
   double width = 0.0;
 
-  @override
-  void initState() {
-    super.initState();
+  
+
+  navigate(BuildContext context) async {
+    String? token = await SessionService.getAccessToken();
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(SignUpScreen.routeName, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          token?.isEmpty ?? true
+              ? SignUpScreen.routeName
+              : AddRatingScreen.routeName,
+          (route) => false);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    navigate(context);
     SizeConfig().init(context);
     height = SizeConfig.safeBlockVertical!;
     width = SizeConfig.safeBlockHorizontal!;

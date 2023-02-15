@@ -173,7 +173,7 @@ class OtpScreen extends StatelessWidget {
       isLoading: state.isLoading,
       onTap: () {
          if(state.isLoading != true){
-          context.read<AuthBloc>().add(VerifyOtp(otp: otpController.text));
+          context.read<AuthBloc>().add(VerifyOtpEvent(otp: otpController.text));
         }
       }
     );
@@ -192,7 +192,7 @@ class OtpScreen extends StatelessWidget {
         ),
         SizedBox(width: width * 1),
         InkWell(
-          onTap: () => context.read<AuthBloc>().add(OtpCountdown()),
+          onTap: () => context.read<AuthBloc>().add(OtpCountdownEvent()),
           child: BuildText(
             text: StringConstants.resend,
             color: Colors.red,
