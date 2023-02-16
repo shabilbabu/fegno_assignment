@@ -14,7 +14,9 @@ import '../rating/add_rating_screen.dart';
 
 class OtpScreen extends StatelessWidget {
   static const String routeName = "/otpScreen";
-  OtpScreen({Key? key}) : super(key: key);
+  OtpScreen({Key? key, required this.phoneNumber}) : super(key: key);
+
+  final String phoneNumber;
 
   //Textediting Controller
   final TextEditingController otpController = TextEditingController();
@@ -110,7 +112,7 @@ class OtpScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BuildText( 
-              text: '+91 8139008887',
+              text: '+91 ${phoneNumber}',
               color: Colors.grey,
               fontSize: 10.0.small11px(),
               family: FontFamily.poppinsmedium,

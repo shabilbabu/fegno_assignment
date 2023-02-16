@@ -38,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
               showSuccessPop(context: context,  title: state.errorMessage.toString());
             } else if (state.signupEntity != null) {
               Navigator.of(context).pushNamedAndRemoveUntil(
-                  OtpScreen.routeName, (route) => false);
+                  OtpScreen.routeName, (route) => false, arguments: {"phone" : phoneOrEmailController.text});
               context.read<AuthBloc>().add(OtpCountdownEvent());
             }
           },
