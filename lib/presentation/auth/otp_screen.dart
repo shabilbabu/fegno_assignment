@@ -58,7 +58,7 @@ class OtpScreen extends StatelessWidget {
               SizedBox(height: height * 20),
               titleSection(),
               SizedBox(height: height * 5),
-              fieldWidget(),
+              fieldWidget(context,state),
               SizedBox(height: height * 4),
               otpField(context),
               resendTimer(state.countDown),
@@ -95,7 +95,8 @@ class OtpScreen extends StatelessWidget {
   }
 
 //Field widget
-  Widget fieldWidget() {
+  Widget fieldWidget(BuildContext context, AuthState state) {
+    
     return Column(
       children: [
         BuildText(
@@ -108,7 +109,7 @@ class OtpScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BuildText(
+            BuildText( 
               text: '+91 8139008887',
               color: Colors.grey,
               fontSize: 10.0.small11px(),

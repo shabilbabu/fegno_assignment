@@ -131,7 +131,7 @@ class AddReviewScreen extends StatelessWidget {
              : Colors.grey,
             ),
             SizedBox(width: 1),
-            starIcon( rating >= 4
+            starIcon( rating >= 5
              ? Colors.amber
              : Colors.grey,
             ),
