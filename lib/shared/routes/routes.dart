@@ -1,7 +1,7 @@
 import 'package:fegno_assignment/presentation/auth/otp_screen.dart';
 import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
+import 'package:fegno_assignment/presentation/home/home_screen.dart';
 import 'package:fegno_assignment/presentation/rating/add_rating_screen.dart';
-import 'package:fegno_assignment/presentation/logout/logout_screen.dart';
 import 'package:fegno_assignment/presentation/review/add_review_screen.dart';
 import 'package:fegno_assignment/presentation/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,6 @@ class Routes{
     SplashScreen.routeName: (ctx) =>  SplashScreen(),
     AddRatingScreen.routeName: (ctx) =>  AddRatingScreen(),
     AddReviewScreen.routeName: (ctx) =>  AddReviewScreen(),
-    LogoutScreen.routeName: (ctx) =>  LogoutScreen(),
+    HomeScreen.routeName: (ctx) =>  HomeScreen(),
   };
 }

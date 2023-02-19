@@ -8,4 +8,6 @@ class ApiConstants{
   static const String uploadRating = _baseUrl + '/api/v1/user/add-rating/';
   //Review
   static const String uploadReview = _baseUrl + '/api/v1/user/add-review/';
+  //Home
+  static const String home = _baseUrl + '/api/v1/fitness_center/fc/';
 }

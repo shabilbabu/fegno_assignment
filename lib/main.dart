@@ -1,7 +1,9 @@
 import 'package:fegno_assignment/application/auth/auth_bloc.dart';
+import 'package:fegno_assignment/application/home/home_bloc.dart';
 import 'package:fegno_assignment/application/rating/rating_bloc.dart';
 import 'package:fegno_assignment/application/review/review_bloc.dart';
 import 'package:fegno_assignment/domain/repository/auth_repo.dart';
+import 'package:fegno_assignment/domain/repository/home_repo.dart';
 import 'package:fegno_assignment/domain/repository/rating_repo.dart';
 import 'package:fegno_assignment/domain/repository/review_repo.dart';
 import 'package:fegno_assignment/presentation/splash/splash_screen.dart';
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ReviewBloc(ReviewRepo()),
+        ),
+        BlocProvider(
+          create: (context) => HomeBloc(HomeRepo())..add(GetReviews()),
         )
       ],
       child: MaterialApp(

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class StringConstants {
   static const String welcomeTo = 'Welcome To';
   static const String appName = 'FEGSTORE';
@@ -25,4 +27,5 @@ class StringConstants {
   static const String fullName = 'Fullname';
   static const String logout = 'Logout';
   static const String successfully = 'Successfully add your review';
+  static const String addReviewAndRating = 'Add Review & Rating';
 }

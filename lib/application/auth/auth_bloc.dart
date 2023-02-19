@@ -50,8 +50,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         try {
           final response = await authRepo.verifyOtp(
               phoneNumber: signupEntity!.mobile!, otp: event.otp);
-          log(response.token.toString());
-          await SessionService.saveAccessToken(response.token.toString());
+          log(response.user.toString());
+          await SessionService.saveAccessToken(response.token.toString(),response.user.toString());
           emit(AuthState.successVerifyOtp(response));
         } catch (e) {
           emit(AuthState.hasError(e.toString()));

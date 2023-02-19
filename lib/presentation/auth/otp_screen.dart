@@ -1,3 +1,4 @@
+import 'package:fegno_assignment/presentation/home/home_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
@@ -35,7 +36,7 @@ class OtpScreen extends StatelessWidget {
         body: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state.verifyOtpEntity != null) {
-              Navigator.of(context).pushNamedAndRemoveUntil(AddRatingScreen.routeName, (route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
             } else if (state.errorMessage != null) {
               showSuccessPop(context: context, title: state.errorMessage.toString());
             }

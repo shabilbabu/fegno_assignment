@@ -1,3 +1,4 @@
+import 'package:fegno_assignment/presentation/home/home_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
 import 'package:fegno_assignment/shared/widgets/appbar.dart';
@@ -5,16 +6,15 @@ import 'package:fegno_assignment/shared/widgets/appbutton.dart';
 import 'package:fegno_assignment/shared/widgets/show_bottom_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../application/home/home_bloc.dart';
 import '../../application/rating/rating_bloc.dart';
 import '../../application/review/review_bloc.dart';
 import '../../shared/gen/colors.gen.dart';
 import '../../shared/gen/fonts.gen.dart';
 import '../../shared/constants/font/size_config.dart';
-import '../../shared/services/session_service.dart';
 import '../../shared/text_widgets/build_text.dart';
 import '../../shared/text_widgets/build_text_form.dart';
-import '../auth/signup_screen.dart';
+
 
 class AddReviewScreen extends StatelessWidget {
   static const String routeName = "/addReviewScreen";
@@ -235,10 +235,9 @@ class AddReviewScreen extends StatelessWidget {
   Widget logoutButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        SessionService.removeAccessToken();
-        context.read<RatingBloc>().add(UpdateRating(rating: 0));
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(SignUpScreen.routeName, (route) => false);
+        context.read<HomeBloc>().add(GetReviews());
+         Navigator.of(context)
+            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
       },
       child: Container(
         padding:
@@ -250,10 +249,10 @@ class AddReviewScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.logout, color: ColorName.colorLoginButton, size: 25),
+            Icon(Icons.arrow_circle_right_sharp, color: ColorName.colorLoginButton, size: 25),
             SizedBox(width: width * 3),
             BuildText(
-              text: StringConstants.logout,
+              text: 'Go to Home',
               color: ColorName.colorLoginButton,
               fontSize: 10.0.small14px(),
               family: FontFamily.poppinsSemiBold,

@@ -1,18 +1,28 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SessionService with ChangeNotifier{
+class SessionService with ChangeNotifier {
   static String accessToken = "TOKEN";
-  
-  static saveAccessToken(String token) async {
+  static String userKey = 'USER';
+
+  static saveAccessToken(String token, String user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(accessToken, token);
+    await preferences.setString(accessToken, token);
+    await preferences.setString(userKey, user);
   }
 
   static getAccessToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final value = preferences.getString(accessToken);
     return value;
+  }
+
+  static Future<String> getUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    final value = preferences.getString(userKey);
+    return value ?? '';
   }
 
   static Future removeAccessToken() async {

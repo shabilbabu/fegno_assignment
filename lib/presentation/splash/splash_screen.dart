@@ -1,5 +1,5 @@
 import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
-import 'package:fegno_assignment/presentation/rating/add_rating_screen.dart';
+import 'package:fegno_assignment/presentation/home/home_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/services/session_service.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushNamedAndRemoveUntil(
           token?.isEmpty ?? true
               ? SignUpScreen.routeName
-              : AddRatingScreen.routeName,
+              : HomeScreen.routeName,
           (route) => false);
     });
   }
