@@ -7,7 +7,7 @@ import 'package:fegno_assignment/shared/services/session_service.dart';
 class ReviewRepo{
   Future<bool> uploadReview({required review}) async {
     Map<String, dynamic> payload = {
-      "fitness_center": "47",
+      "fitness_center": "43",
       "review": review,
     };
 

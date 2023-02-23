@@ -52,6 +52,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               phoneNumber: signupEntity!.mobile!, otp: event.otp);
           log(response.user.toString());
           await SessionService.saveAccessToken(response.token.toString(),response.user.toString());
+          SessionService.userName = response.user.toString();
           emit(AuthState.successVerifyOtp(response));
         } catch (e) {
           emit(AuthState.hasError(e.toString()));

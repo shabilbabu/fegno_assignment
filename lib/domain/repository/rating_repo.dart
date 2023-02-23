@@ -8,7 +8,7 @@ import '../../shared/constants/api_constants.dart';
 class RatingRepo {
   Future<bool> uploadRating({required rating}) async {
     Map<String, dynamic> payload = {
-      "fitness_center": "47",
+      "fitness_center": "43",
       "rating": rating.toString(),
     };
     final token = await SessionService.getAccessToken();

@@ -17,6 +17,7 @@ class AuthRepo {
     try {
       final response = await Dio().post(ApiConstants.signup, data: payload);
       final model = SignupEntity.fromJson(response.data);
+      log(response.data.toString());
       if (model.otp != null) {
         return model;
       } else {
@@ -42,6 +43,7 @@ class AuthRepo {
     try {
       final response = await Dio().post(ApiConstants.otp, data: payload);
       final model = VerifyOtpEntity.fromJson(response.data);
+      log('Token ************** ${model.token}');
       if (model.token != null) {
         return model;
       } else {

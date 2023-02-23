@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigate(BuildContext context) async {
     String? token = await SessionService.getAccessToken();
+    SessionService.userName = await SessionService.getUser();
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushNamedAndRemoveUntil(
           token?.isEmpty ?? true

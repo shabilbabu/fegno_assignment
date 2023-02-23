@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:fegno_assignment/application/auth/auth_bloc.dart';
 import 'package:fegno_assignment/domain/entity/review_entity.dart';
 import 'package:fegno_assignment/presentation/auth/signup_screen.dart';
 import 'package:fegno_assignment/presentation/rating/add_rating_screen.dart';
@@ -81,54 +79,7 @@ class HomeScreen extends StatelessWidget {
           const Spacer(),
           IconButton(
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: ColorName.colorLoginButton,
-                    title: BuildText(
-                      text: 'Do you want to Logout...?',
-                      color: ColorName.colorWhite,
-                      fontSize: 10.0.small14px(),
-                      family: FontFamily.poppinsRegular,
-                    ),
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: BuildText(
-                            text: 'NO',
-                            color: ColorName.colorWhite,
-                            fontSize: 10.0.medium16px(),
-                            family: FontFamily.poppinsSemiBold,
-                          ),
-                        ),
-                        SizedBox(width: width * 20),
-                        InkWell(
-                          onTap: () {
-                            SessionService.removeAccessToken();
-                            context
-                                .read<RatingBloc>()
-                                .add(UpdateRating(rating: 0));
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                SignUpScreen.routeName, (route) => false);
-                          },
-                          child: BuildText(
-                            text: 'YES',
-                            color: ColorName.colorWhite,
-                            fontSize: 10.0.medium16px(),
-                            family: FontFamily.poppinsSemiBold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
+              logoutShowDialoague(context);
             },
             icon: Icon(
               Icons.logout,
@@ -137,6 +88,56 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+//Logout show Dialogue
+  Future logoutShowDialoague(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          backgroundColor: ColorName.colorLoginButton,
+          title: BuildText(
+            text: 'Do you want to Logout...?',
+            color: ColorName.colorWhite,
+            fontSize: 10.0.small14px(),
+            family: FontFamily.poppinsRegular,
+          ),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: BuildText(
+                  text: 'NO',
+                  color: ColorName.colorWhite,
+                  fontSize: 10.0.medium16px(),
+                  family: FontFamily.poppinsSemiBold,
+                ),
+              ),
+              SizedBox(width: width * 20),
+              InkWell(
+                onTap: () {
+                  SessionService.removeAccessToken(); 
+                  context.read<RatingBloc>().add(UpdateRating(rating: 0));
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      SignUpScreen.routeName, (route) => false);
+                },
+                child: BuildText(
+                  text: 'YES',
+                  color: ColorName.colorWhite,
+                  fontSize: 10.0.medium16px(),
+                  family: FontFamily.poppinsSemiBold,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -164,13 +165,13 @@ class HomeScreen extends StatelessWidget {
                       vertical: height * 2, horizontal: width * 3),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: ColorName.colorLoginButton),
+                    color: Colors.grey[200],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           BuildText(
                             text: listReviews[index].user.toString(),
@@ -178,6 +179,7 @@ class HomeScreen extends StatelessWidget {
                             fontSize: 10.0.small14px(),
                             family: FontFamily.poppinsRegular,
                           ),
+                          const Spacer(),
                           Container(
                             padding: EdgeInsets.all(4),
                             decoration: BoxDecoration(
@@ -200,7 +202,16 @@ class HomeScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          )
+                          ),
+                          SizedBox(width: width * 2),
+                          if (SessionService.userName ==
+                              listReviews[index].user)
+                            InkWell(
+                              onTap: () {
+                                editReviewShow(context, reviewsEntity);
+                              },
+                              child: Icon(Icons.more_vert),
+                            ),
                         ],
                       ),
                       SizedBox(height: height * 1),
@@ -222,6 +233,31 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+//Edit review show
+  Future editReviewShow(BuildContext context, ReviewsEntity reviewsEntity) {
+    return showDialog(
+      context: context,
+      builder: ((context) {
+        return AlertDialog(
+          backgroundColor: ColorName.colorLoginButton,
+          title: Center(
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(AddRatingScreen.routeName);
+              },
+              child: BuildText(
+                text: 'Edit Review',
+                color: ColorName.colorWhite,
+                fontSize: 10.0.medium15px(),
+                family: FontFamily.poppinsSemiBold,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
 //Floating action button
   Widget floatingActionButton(
       BuildContext context, ReviewsEntity? reviewsEntity) {
@@ -240,6 +276,7 @@ class HomeScreen extends StatelessWidget {
                       .firstWhere((element) => element.review!.isNotEmpty)
                       .review ??
                   [];
+                  
               log('..................................................................value = $value');
               final alredy = reviews.map((e) => e.user).contains(value);
               if (alredy == true) {

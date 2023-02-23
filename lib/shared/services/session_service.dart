@@ -3,9 +3,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SessionService with ChangeNotifier {
+class SessionService {
   static String accessToken = "TOKEN";
   static String userKey = 'USER';
+  static String? userName;
 
   static saveAccessToken(String token, String user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
