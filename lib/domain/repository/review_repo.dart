@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:fegno_assignment/shared/constants/api_constants.dart';
 import 'package:fegno_assignment/shared/services/session_service.dart';
 
-class ReviewRepo{
+class ReviewRepo {
   Future<bool> uploadReview({required review}) async {
     Map<String, dynamic> payload = {
       "fitness_center": "43",
@@ -16,21 +16,23 @@ class ReviewRepo{
       'Authorization': 'Token ${token}',
     };
 
-    try{
-      final response = await Dio().post(ApiConstants.uploadReview, data: payload, options: Options(headers: headers));
+    try {
+      final response = await Dio().post(ApiConstants.uploadReview,
+          data: payload, options: Options(headers: headers));
       final model = response.data["message"] == "Review updated";
 
       log(response.data.toString());
-      if(model == true){
+
+      if (model == true) {
         return model;
       } else {
-        throw 'Something went wrong! Please try again later.';
+        throw 'Something went wrong! Please try again later';
       }
     } on DioError catch (e) {
-      if(e.message.contains('SocketException')){
-        throw 'Please make sure about your Connection!';
+      if (e.message.contains('SocketException')) {
+        throw 'Make sure about your Internet Connection';
       } else {
-        throw 'Something went wrong! Please try again later.';
+        throw 'Something went wrong! Please try again later';
       }
     }
   }

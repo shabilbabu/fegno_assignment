@@ -12,7 +12,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepo homeRepo;
   ReviewsEntity? homeEntity;
   HomeBloc(this.homeRepo) : super(HomeState()) {
-    on<GetReviews>((event, emit) async {
+    on<GetReviewsEvent>((event, emit) async {
       try {
         emit(HomeState.started());
         homeEntity = await homeRepo.home();

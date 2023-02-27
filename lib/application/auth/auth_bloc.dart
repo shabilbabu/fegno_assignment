@@ -12,8 +12,8 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepo authRepo;
-   SignupEntity? signupEntity;
-  AuthBloc(this.authRepo) : super(AuthState()) {
+  SignupEntity? signupEntity;
+  AuthBloc(this.authRepo) : super(AuthState.initial()) {
     on<SignupEvent>((event, emit) async {
       if (event.phoneNumber.isEmpty) {
         emit(AuthState.hasError('Phone number is required'));
@@ -51,7 +51,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           final response = await authRepo.verifyOtp(
               phoneNumber: signupEntity!.mobile!, otp: event.otp);
           log(response.user.toString());
-          await SessionService.saveAccessToken(response.token.toString(),response.user.toString());
+          await SessionService.saveAccessToken(
+              response.token.toString(), response.user.toString());
           SessionService.userName = response.user.toString();
           emit(AuthState.successVerifyOtp(response));
         } catch (e) {

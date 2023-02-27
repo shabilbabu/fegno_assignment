@@ -1,3 +1,4 @@
+import 'package:fegno_assignment/domain/entity/review_entity.dart';
 import 'package:fegno_assignment/presentation/home/home_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
@@ -15,12 +16,10 @@ import '../../shared/constants/font/size_config.dart';
 import '../../shared/text_widgets/build_text.dart';
 import '../../shared/text_widgets/build_text_form.dart';
 
-
 class AddReviewScreen extends StatelessWidget {
   static const String routeName = "/addReviewScreen";
   AddReviewScreen({Key? key}) : super(key: key);
 
-  
 
   //height and width
   double height = 0.0;
@@ -31,7 +30,6 @@ class AddReviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     SizeConfig().init(context);
     height = SizeConfig.safeBlockVertical!;
     width = SizeConfig.safeBlockHorizontal!;
@@ -45,7 +43,8 @@ class AddReviewScreen extends StatelessWidget {
               showSuccessPop(
                   context: context, title: state.errorMessage.toString());
             } else if (state.review.isNotEmpty) {
-              showModelBottomSheet(context);
+              Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+              context.read<HomeBloc>().add(GetReviewsEvent());
             }
           },
           builder: (context, state) {
@@ -105,35 +104,30 @@ class AddReviewScreen extends StatelessWidget {
         Row(
           children: [
             BuildText(
-              text: rating.toString()+ '.0',
+              text: rating.toString() + '.0',
               color: Colors.green,
               fontSize: 10.0.large23px(),
               family: FontFamily.poppinsSemiBold,
             ),
             SizedBox(width: width * 3),
-            starIcon( rating >= 1
-             ? Colors.amber
-             : Colors.grey,
+            starIcon(
+              rating >= 1 ? Colors.amber : Colors.grey,
             ),
             SizedBox(width: 1),
-            starIcon( rating >= 2
-             ? Colors.amber
-             : Colors.grey,
+            starIcon(
+              rating >= 2 ? Colors.amber : Colors.grey,
             ),
             SizedBox(width: 1),
-            starIcon( rating >= 3
-             ? Colors.amber
-             : Colors.grey,
+            starIcon(
+              rating >= 3 ? Colors.amber : Colors.grey,
             ),
             SizedBox(width: 1),
-            starIcon( rating >= 4
-             ? Colors.amber
-             : Colors.grey,
+            starIcon(
+              rating >= 4 ? Colors.amber : Colors.grey,
             ),
             SizedBox(width: 1),
-            starIcon( rating >= 5
-             ? Colors.amber
-             : Colors.grey,
+            starIcon(
+              rating >= 5 ? Colors.amber : Colors.grey,
             ),
           ],
         ),
@@ -145,8 +139,7 @@ class AddReviewScreen extends StatelessWidget {
   Widget starIcon(Color color) {
     return Icon(
       Icons.star,
-      color:
-       color,
+      color: color,
       size: 22,
     );
   }
@@ -189,78 +182,80 @@ class AddReviewScreen extends StatelessWidget {
             context
                 .read<ReviewBloc>()
                 .add(UploadReviewEvent(review: reviewController.text));
+                
           }
         });
   }
 
-//Success bottom sheet widget
-  Future showModelBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-      backgroundColor: ColorName.colorLoginButton,
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: width * 10, vertical: height * 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BuildText(
-                text: StringConstants.appName,
-                color: ColorName.colorWhite,
-                fontSize: 10.0.large30px(),
-                family: FontFamily.poppinsBold,
-              ),
-              SizedBox(height: height * 5),
-              BuildText(
-                text: StringConstants.successfully,
-                color: ColorName.colorWhite,
-                fontSize: 10.0.large22px(),
-                family: FontFamily.poppinsSemiBold,
-                textAlign: TextAlign.center,
-              ),
-              const Spacer(),
-              logoutButton(context),
-            ],
-          ),
-        );
-      },
-    );
-  }
+// //Success bottom sheet widget
+//   Future showModelBottomSheet(BuildContext context) {
+//     return showModalBottomSheet(
+//       shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+//       backgroundColor: ColorName.colorLoginButton,
+//       context: context,
+//       builder: (context) {
+//         return Container(
+//           padding: EdgeInsets.symmetric(
+//               horizontal: width * 10, vertical: height * 10),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               BuildText(
+//                 text: StringConstants.appName,
+//                 color: ColorName.colorWhite,
+//                 fontSize: 10.0.large30px(),
+//                 family: FontFamily.poppinsBold,
+//               ),
+//               SizedBox(height: height * 5),
+//               BuildText(
+//                 text: StringConstants.successfully,
+//                 color: ColorName.colorWhite,
+//                 fontSize: 10.0.large22px(),
+//                 family: FontFamily.poppinsSemiBold,
+//                 textAlign: TextAlign.center,
+//               ),
+//               const Spacer(),
+//               logoutButton(context),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
 
 //Logout button
-  Widget logoutButton(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.read<HomeBloc>().add(GetReviews());
-         Navigator.of(context)
-            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
-      },
-      child: Container(
-        padding:
-            EdgeInsets.symmetric(horizontal: width * 5, vertical: height * 1),
-        decoration: BoxDecoration(
-          color: ColorName.colorWhite,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.arrow_circle_right_sharp, color: ColorName.colorLoginButton, size: 25),
-            SizedBox(width: width * 3),
-            BuildText(
-              text: 'Go to Home',
-              color: ColorName.colorLoginButton,
-              fontSize: 10.0.small14px(),
-              family: FontFamily.poppinsSemiBold,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget logoutButton(BuildContext context) {
+  //   return InkWell(
+  //     onTap: () {
+  //       context.read<HomeBloc>().add(GetReviews());
+  //       Navigator.of(context)
+  //           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+  //     },
+  //     child: Container(
+  //       padding:
+  //           EdgeInsets.symmetric(horizontal: width * 5, vertical: height * 1),
+  //       decoration: BoxDecoration(
+  //         color: ColorName.colorWhite,
+  //         borderRadius: BorderRadius.circular(10),
+  //       ),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Icon(Icons.arrow_circle_right_sharp,
+  //               color: ColorName.colorLoginButton, size: 25),
+  //           SizedBox(width: width * 3),
+  //           BuildText(
+  //             text: 'Go to Home',
+  //             color: ColorName.colorLoginButton,
+  //             fontSize: 10.0.small14px(),
+  //             family: FontFamily.poppinsSemiBold,
+  //             textAlign: TextAlign.center,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

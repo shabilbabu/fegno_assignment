@@ -5,6 +5,7 @@ import 'package:fegno_assignment/presentation/rating/add_rating_screen.dart';
 import 'package:fegno_assignment/shared/constants/font/font_constants.dart';
 import 'package:fegno_assignment/shared/constants/font/size_config.dart';
 import 'package:fegno_assignment/shared/constants/string_constants.dart';
+import 'package:fegno_assignment/shared/widgets/custom_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/home/home_bloc.dart';
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
               return Center(
                 child: TextButton(
                     onPressed: () {
-                      context.read<HomeBloc>().add(GetReviews());
+                      context.read<HomeBloc>().add(GetReviewsEvent());
                     },
                     child: BuildText(
                       text: 'Retry',
@@ -48,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                     )),
               );
             } else if (state.isLoading == true) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CustomProgressIndicatorWidget());
             } else if (state.reviewEntity != null) {
               return successBody(state.reviewEntity!);
             } else {

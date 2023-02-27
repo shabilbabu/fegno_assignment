@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ReviewBloc(ReviewRepo()),
         ),
         BlocProvider(
-          create: (context) => HomeBloc(HomeRepo())..add(GetReviews()),
+          create: (context) => HomeBloc(HomeRepo())..add(GetReviewsEvent()),
         )
       ],
       child: MaterialApp(
